@@ -13,7 +13,7 @@
             --gold: #d97706;
             --bg: #f0f9ff;
             --card: #ffffff;
-            --expert: #7c3aed;
+            --expert-color: #7c3aed;
             --dark-text: #0f172a;
         }
 
@@ -26,7 +26,7 @@
         }
 
         .container {
-            max-width: 1150px;
+            max-width: 1200px;
             margin: auto;
             background: var(--card);
             border-radius: 20px;
@@ -46,7 +46,7 @@
             margin-bottom: 30px;
         }
 
-        .header h1 { margin: 0; color: var(--blue); font-size: 1.8rem; letter-spacing: -0.5px; }
+        .header h1 { margin: 0; color: var(--blue); font-size: 1.8rem; }
 
         .user-box input {
             padding: 12px;
@@ -54,12 +54,8 @@
             border-radius: 10px;
             width: 100%;
             max-width: 320px;
-            font-size: 1rem;
             outline: none;
-            transition: border-color 0.3s;
         }
-
-        .user-box input:focus { border-color: var(--blue); }
 
         .stamp {
             background: #fffbeb;
@@ -68,7 +64,6 @@
             border: 1px dashed var(--gold);
             font-family: 'Courier New', monospace;
             font-size: 13px;
-            line-height: 1.4;
         }
 
         .mission-block {
@@ -83,20 +78,10 @@
             color: #c2410c;
             text-transform: uppercase;
             font-weight: 800;
-            font-size: 1.1rem;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .dual-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 25px;
-        }
-
-        .map-wrapper { display: flex; flex-direction: column; gap: 12px; }
+        .map-wrapper { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
 
         .btn-panel { display: flex; flex-wrap: wrap; gap: 8px; }
 
@@ -109,14 +94,10 @@
             font-weight: 600;
             font-size: 12px;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: filter 0.2s;
         }
 
-        .v-btn:hover { filter: brightness(1.1); }
-
         .map-box {
-            height: 350px;
+            height: 380px;
             border-radius: 12px;
             border: 2px solid #cbd5e1;
             overflow: hidden;
@@ -125,39 +106,37 @@
 
         .map-div { height: 100%; width: 100%; }
 
-        /* Стилізація таблиць */
+        /* Таблиця з колонкою Експерт */
         .data-table {
             width: 100%;
             border-collapse: collapse;
             background: white;
             border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-top: 10px;
         }
 
         .data-table th, .data-table td {
             border: 1px solid #f1f5f9;
             padding: 12px;
             font-size: 14px;
+            vertical-align: top;
         }
 
-        .data-table th { background: #0ea5e9; color: white; text-align: left; width: 35%; }
+        .data-table th { background: #0ea5e9; color: white; text-align: center; }
+        .th-expert { background: var(--expert-color) !important; }
 
         textarea {
             width: 100%;
-            border: none;
+            border: 1px solid #f1f5f9;
             resize: vertical;
-            min-height: 60px;
+            min-height: 80px;
             font-family: inherit;
-            font-size: 14px;
-            color: #334155;
+            font-size: 13px;
             outline: none;
+            padding: 5px;
         }
 
-        .save-section {
-            text-align: center;
-            margin-top: 40px;
-        }
+        .expert-q { font-weight: bold; color: var(--expert-color); margin-bottom: 5px; display: block; }
 
         .save-btn {
             background: #10b981;
@@ -168,15 +147,11 @@
             font-size: 1.4rem;
             font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 10px 15px -3px rgba(16,185,129,0.4);
-            transition: 0.3s;
+            width: 100%;
         }
 
-        .save-btn:hover { transform: translateY(-3px); background: #059669; }
-
-        @media (max-width: 600px) {
-            .dual-grid { grid-template-columns: 1fr; }
-            .map-box { height: 280px; }
+        @media (max-width: 900px) {
+            .data-table th, .data-table td { display: block; width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
@@ -185,7 +160,7 @@
 <div class="container" id="full-report">
     <div class="header">
         <div class="user-box">
-            <h1>⛰️ РЕЛЬЄФ.Дослідження </h1>
+            <h1>⛰️ РЕЛЬЄФ: Глобальна експедиція</h1>
             <input type="text" placeholder="Прізвище та ім'я дослідника">
         </div>
         <div class="stamp">
@@ -196,66 +171,78 @@
     </div>
 
     <div class="mission-block">
-        <h2 class="mission-title">📍 Етап 1: Рівнини (Гіпсометричний аналіз)</h2>
-        <div class="dual-grid">
-            <div class="map-wrapper">
-                <div class="btn-panel">
-                    <button onclick="fly(map1, 49.3, 31.0, 7)" class="v-btn" style="background:#b45309">Придніпровська вис.</button>
-                    <button onclick="fly(map1, 50.0, 33.0, 7)" class="v-btn" style="background:#15803d">Придніпровська низ.</button>
-                </div>
-                <div class="map-box"><div id="map1" class="map-div"></div></div>
-                <table class="data-table">
-                    <tr><th>Назва об'єкта</th><td><textarea placeholder="Введіть назву..."></textarea></td></tr>
-                    <tr><th>Характеристика </th><td><textarea placeholder="Причорноморська низовина розташована на півдні України, має переважно зелений колір та висоти від 0 до 200 м над рівнем моря, по ній протікає Дніпро, межує з Карпатами та Чорним морем"></textarea></td></tr>
-                </table>
+        <h2 class="mission-title">📍 Етап 1: Рівнини (Низовини, Височини, Плоскогір'я)</h2>
+        <div class="map-wrapper">
+            <div class="btn-panel">
+                <button onclick="fly(map1, 49.3, 31.0, 7)" class="v-btn" style="background:#b45309">Придніпровська вис.</button>
+                <button onclick="fly(map1, 50.0, 33.0, 7)" class="v-btn" style="background:#15803d">Придніпровська низ.</button>
+                <button onclick="fly(map2, -3.0, -60.0, 4)" class="v-btn" style="background:#065f46">Амазонська низ.</button>
+                <button onclick="fly(map2, 15.0, 77.0, 5)" class="v-btn" style="background:#4d7c0f">Плоскогір'я Декан</button>
             </div>
-            <div class="map-wrapper">
-                <div class="btn-panel">
-                    <button onclick="fly(map2, -3.0, -60.0, 4)" class="v-btn" style="background:#065f46">Амазонська низ.</button>
-                    <button onclick="fly(map2, 15.0, 77.0, 5)" class="v-btn" style="background:#7c3aed">Плоскогір'я Декан</button>
-                </div>
-                <div class="map-box"><div id="map2" class="map-div"></div></div>
-                <table class="data-table">
-                    <tr><th>Назва об'єкта</th><td><textarea placeholder="Введіть назву..."></textarea></td></tr>
-                    <tr><th>Характеристика</th><td><textarea placeholder="Опишіть колір та висоту..."></textarea></td></tr>
-                </table>
-            </div>
+            <div class="map-box"><div id="map1" class="map-div"></div></div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Досліджений об'єкт</th>
+                        <th>Фізико-географічний опис</th>
+                        <th class="th-expert">💡 КОЛОНКА ЕКСПЕРТА</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><textarea placeholder="Назва об'єкта..."></textarea></td>
+                        <td><textarea placeholder="Опишіть колір на карті та переважаючі висоти..."></textarea></td>
+                        <td>
+                            <span class="expert-q">Запитання: Чим відрізняється плоскогір'я від низовини за способом утворення та висотою?</span>
+                            <textarea placeholder="Ваша експертна думка..."></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div class="mission-block">
-        <h2 class="mission-title">🏔️ Етап 2: Гірські системи та вершини</h2>
-        <div class="dual-grid">
-            <div class="map-wrapper">
-                <div class="btn-panel">
-                    <button onclick="fly(map3, 48.16, 24.5, 9)" class="v-btn" style="background:#991b1b">Карпати</button>
-                    <button onclick="fly(map3, 44.6, 34.2, 9)" class="v-btn" style="background:#ef4444">Кримські гори</button>
-                </div>
-                <div class="map-box"><div id="map3" class="map-div"></div></div>
-                <table class="data-table">
-                    <tr><th>Опис</th><td><textarea placeholder="Гори (наприклад, Карпати) простягаються із заходу на схід, представлені хребтами різної висоти (від 1000 м до 2000+ м), позначені від світло- до темно-коричневого кольору. Вершини деяких масивів (наприклад, Чорногора) є найвищими, з гострими формами, а між хребтами розташовані широкі улоговини та полонини."></textarea></td></tr>
-                </table>
+        <h2 class="mission-title">🏔️ Етап 2: Гірські системи та складчасті споруди</h2>
+        <div class="map-wrapper">
+            <div class="btn-panel">
+                <button onclick="fly(map3, 48.16, 24.5, 9)" class="v-btn" style="background:#991b1b">Карпати</button>
+                <button onclick="fly(map3, 44.6, 34.2, 9)" class="v-btn" style="background:#ef4444">Кримські гори</button>
+                <button onclick="fly(map4, 28.0, 86.9, 8)" class="v-btn" style="background:#334155">Гімалаї (Еверест)</button>
+                <button onclick="fly(map4, -32.6, -70.0, 8)" class="v-btn" style="background:#1e293b">Анди (Аконкагуа)</button>
             </div>
-            <div class="map-wrapper">
-                <div class="btn-panel">
-                    <button onclick="fly(map4, 28.0, 86.9, 8)" class="v-btn" style="background:#334155">Гімалаї</button>
-                    <button onclick="fly(map4, -32.6, -70.0, 8)" class="v-btn" style="background:#1e293b">Анди</button>
-                </div>
-                <div class="map-box"><div id="map4" class="map-div"></div></div>
-                <table class="data-table">
-                    <tr><th>Опис</th><td><textarea placeholder="Назва та висота..."></textarea></td></tr>
-                </table>
-            </div>
+            <div class="map-box"><div id="map3" class="map-div"></div></div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Гірська система</th>
+                        <th>Характеристика рельєфу</th>
+                        <th class="th-expert">💡 КОЛОНКА ЕКСПЕРТА</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><textarea placeholder="Назва гір..."></textarea></td>
+                        <td><textarea placeholder="Простягання, висоти, колір на карті..."></textarea></td>
+                        <td>
+                            <span class="expert-q">Запитання: Чому Гімалаї продовжують рости, а Кримські гори вважаються відносно низькими?</span>
+                            <textarea placeholder="Ваша експертна думка..."></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div class="save-section">
-        <button class="save-btn" onclick="saveReport()">💾 ЗБЕРЕГТИ ЗВІТ ЕКСПЕДИЦІЇ</button>
+        <button class="save-btn" onclick="saveReport()">💾 ЗБЕРЕГТИ ПОВНИЙ ЗВІТ ЕКСПЕДИЦІЇ</button>
     </div>
 </div>
 
 <script>
-    // Налаштування таймера
+    // Таймер
     const startTime = new Date();
     document.getElementById('date-now').innerText = startTime.toLocaleDateString('uk-UA');
     document.getElementById('time-start').innerText = startTime.toLocaleTimeString('uk-UA', {hour:'2-digit', minute:'2-digit'});
@@ -263,28 +250,26 @@
         document.getElementById('time-dur').innerText = Math.floor((new Date() - startTime)/60000) + " хв";
     }, 60000);
 
-    // Ініціалізація фізичних карт (OpenTopoMap)
+    // Карти (Спільне використання map1 для переглядів, або можна розділити)
     const mapSettings = { zoomControl: true, attributionControl: false };
     const map1 = L.map('map1', mapSettings).setView([48.5, 31], 6);
-    const map2 = L.map('map2', mapSettings).setView([0, 0], 2);
     const map3 = L.map('map3', mapSettings).setView([48, 24], 7);
-    const map4 = L.map('map4', mapSettings).setView([20, 30], 2);
 
-    // Використовуємо OpenTopoMap для відображення фізичного рельєфу
     const topoUrl = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
     
-    [map1, map2, map3, map4].forEach(m => {
-        L.tileLayer(topoUrl, {
-            maxZoom: 17,
-            crossOrigin: true // Для коректного збереження знімків
-        }).addTo(m);
+    [map1, map3].forEach(m => {
+        L.tileLayer(topoUrl, { maxZoom: 17, crossOrigin: true }).addTo(m);
     });
+
+    // Окремі посилання для фонових карт, щоб flyTo працював коректно
+    const map2 = map1; 
+    const map4 = map3;
 
     function fly(m, lat, lng, zoom) {
         m.flyTo([lat, lng], zoom, { duration: 2 });
     }
 
-    // Збереження звіту
+    // Збереження
     function saveReport() {
         const btn = document.querySelector('.save-btn');
         btn.innerText = "⏳ ФОРМУВАННЯ ФАЙЛУ...";
@@ -295,14 +280,13 @@
             backgroundColor: '#f0f9ff'
         }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'Relief_Expedition_Report.png';
+            link.download = 'Expert_Relief_Report.png';
             link.href = canvas.toDataURL();
             link.click();
-            btn.innerText = "💾 ЗБЕРЕГТИ ЗВІТ ЕКСПЕДИЦІЇ";
+            btn.innerText = "💾 ЗБЕРЕГТИ ПОВНИЙ ЗВІТ ЕКСПЕДИЦІЇ";
         });
     }
 </script>
 
 </body>
 </html>
-
